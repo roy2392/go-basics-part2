@@ -19,7 +19,19 @@ func main() {
 
 	if choice == 1 {
 		fmt.Println("Your balance is: ", accountBalance)
+	} else if choice == 2 {
+		fmt.Print("Enter the amount you want to deposit: ")
+		var depositAmount float64
+		fmt.Scan(&depositAmount)
+		accountBalance += depositAmount
+		fmt.Println("Your updated balance is: ", accountBalance)
+	} else if choice == 3 {
+		fmt.Print("Enter the amount you want to withdraw: ")
+		var withdrawAmount float64
+		fmt.Scan(&withdrawAmount)
+		accountBalance -= withdrawAmount
+		fmt.Println("Your updated balance is: ", accountBalance)
+	} else {
+		fmt.Println("Thank you for visiting the bank")
 	}
-
-	fmt.Println("You have selected: ", choice)
 }
