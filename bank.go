@@ -1,15 +1,42 @@
 package main
 
-import "fmt"
-import "os"
+import (
+	"errors"
+	"fmt"
+	"os"
+	"strconv"
+)
+
+const accountBalanceFile = "balance.txt"
+
+func getBalanceFromFile() (float64, error) {
+	data, err := os.ReadFile(accountBalanceFile)
+	if err != nil {
+		return 1000, errors.New("could not read balance file")
+	}
+
+	balanceText := string(data)
+	balance, err := strconv.ParseFloat(balanceText, 64)
+	if err != nil {
+		return 1000, errors.New("could not parse balance")
+	}
+	return balance, nil
+}
 
 func writeBalanceToFile(balance float64) {
 	balanceText := fmt.Sprint(balance)
-	os.WriteFile("balance.txt", []byte(balanceText), 0644)
+	os.WriteFile(accountBalanceFile, []byte(balanceText), 0644)
 }
 
 func main() {
-	var accountBalance float64 = 1000
+	var accountBalance, err = getBalanceFromFile()
+
+	if err != nil {
+		fmt.Println("ERROR")
+		fmt.Println(err)
+		fmt.Println("----------------")
+	}
+
 	fmt.Println("welcome to the bank")
 	for {
 		fmt.Println("How can I help you?")
@@ -21,7 +48,6 @@ func main() {
 		var choice int
 		fmt.Scan(&choice)
 
-		//wantsCheckBalance := choice == 1
 		switch choice {
 
 		case 1:
