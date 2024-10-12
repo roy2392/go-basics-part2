@@ -1,6 +1,12 @@
 package main
 
 import "fmt"
+import "os"
+
+func writeBalanceToFile(balance float64) {
+	balanceText := fmt.Sprint(balance)
+	os.WriteFile("balance.txt", []byte(balanceText), 0644)
+}
 
 func main() {
 	var accountBalance float64 = 1000
@@ -30,6 +36,9 @@ func main() {
 				fmt.Println("Invalid amount")
 				continue
 			}
+			accountBalance += depositAmount
+			fmt.Println("Your new balance is: ", accountBalance)
+			writeBalanceToFile(accountBalance)
 
 		case 3:
 			fmt.Print("Enter the amount you want to withdraw: ")
@@ -39,6 +48,13 @@ func main() {
 				fmt.Println("Invalid amount")
 				continue
 			}
+			if withdrawAmount > accountBalance {
+				fmt.Println("Insufficient funds")
+				continue
+			}
+			accountBalance -= withdrawAmount
+			fmt.Println("Your new balance is: ", accountBalance)
+			writeBalanceToFile(accountBalance)
 
 		default:
 			fmt.Println("Goodbye")
